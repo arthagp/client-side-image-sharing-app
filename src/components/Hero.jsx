@@ -2,7 +2,7 @@ import React from 'react';
 
 const Hero = () => {
   return (
-    <div className="hero-section h-[640px] text-white py-20 px-6 md:px-16 lg:px-24 xl:px-32">
+    <div className="hero-section h-[645px] text-white py-20 px-6 md:px-16 lg:px-24 xl:px-32">
       <div className="max-w-3xl mx-auto text-center mt-28">
         <h1 className="text-4xl md:text-5xl lg:text-6xl font-semibold mb-4">Splasher</h1>
         <h2 className="text-lg md:text-xl lg:text-xl mb-4">The internet’s source for visuals.</h2>
