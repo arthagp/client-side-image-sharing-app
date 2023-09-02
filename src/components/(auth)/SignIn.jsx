@@ -87,7 +87,7 @@ const SignIn = () => {
               onChange={handleUsernameChange}
               value={username}
               type="text"
-              className="mt-1 block w-full h-10 text-black border-gray-300 rounded-md border focus:ring focus:ring-indigo-200 focus:border-indigo-300"
+              className="mt-1 px-4 block w-full h-10 text-black border-gray-300 rounded-md border focus:ring focus:ring-indigo-200 focus:border-indigo-300"
             />
           </div>
           <div>
@@ -99,7 +99,7 @@ const SignIn = () => {
               onChange={handlePasswordChange}
               value={password}
               type="password"
-              className="mt-1 block w-full h-10 text-black border-gray-300 rounded-md border focus:ring focus:ring-indigo-200 focus:border-indigo-300"
+              className="mt-1 px-4 block w-full h-10 text-black border-gray-300 rounded-md border focus:ring focus:ring-indigo-200 focus:border-indigo-300"
             />
           </div>
           <button type='submit' className="w-full py-2 px-4 border rounded-md shadow-sm text-sm font-medium text-white bg-indigo-500 hover:bg-indigo-600">

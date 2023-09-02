@@ -12,6 +12,18 @@ const userLogin = async (username, password) => {
     }
 }
 
+const userRegister = async (username, password) => {
+    try {
+        const response = await instance.post('/register', {username, password})
+        return response
+    } catch (error) {
+        throw (
+            new Error(error.response.data.message) ||
+            console.log("Something Went Wrong")
+          );
+    }
+}
+
 const getAllImages = async () => {
     try {
         const response = await instance.get('/all-post');
@@ -24,4 +36,4 @@ const getAllImages = async () => {
     }
 }
 
-module.exports = { getAllImages, userLogin}
+module.exports = { getAllImages, userLogin, userRegister}

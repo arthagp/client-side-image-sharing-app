@@ -10,7 +10,6 @@ const Card = () => {
       const response = await getAllImages()
       setPosts(response.data)
       console.log(response.data)
-      // console.log(posts[0].image_url)
     } catch (error) {
       console.log(error)
     }
