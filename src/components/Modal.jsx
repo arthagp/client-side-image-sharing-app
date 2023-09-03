@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
 
 const Modal = ({ closeBtn, selectedPost }) => {
@@ -45,12 +46,13 @@ const Modal = ({ closeBtn, selectedPost }) => {
                     alt="delete-sign"
                 />
             </button>
-            <a
-                className="absolute top-3 right-3 no-underline rounded-lg text-gray-800 bg-green-400 pt-2 pb-2 px-2"
-                href="#"
+            <Link
+                className="absolute top-3 right-3 no-underline rounded-lg text-white font-semibold bg-green-400 pt-2 pb-2 px-2"
+                target='_blank'
+                href={selectedPost.image_url}
             >
                 Download Image
-            </a>
+            </Link>
             <div className="flex justify-center items-center mx-3 mt-3">
                 {/* muncul gambar asli yang di klik di card */}
                 <img
@@ -90,6 +92,12 @@ const Modal = ({ closeBtn, selectedPost }) => {
                                 alt="calendar--v1"
                             />
                             <p className='pl-1'>{formateDate(selectedPost.createdAt)}</p>
+
+                        </div>
+                        <div className='flex mt-10 text-sm text-gray-600 flex-wrap'>
+                            {selectedPost.Tags.map(tag => (<div className='rounded-md bg-slate-400 px-2 py-1 m-1 ' key={tag.id}>
+                                {tag.tag_name}
+                            </div>))}
                         </div>
                     </div>
                 </div>

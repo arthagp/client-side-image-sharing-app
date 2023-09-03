@@ -34,13 +34,12 @@ const Card = () => {
     const selectedPost = posts.find((post) => post.image_url === image);
     setSelectedImage(selectedPost);
   };
-  
 
   useEffect(() => {
     fetchAllImages()
   }, [])
 
-  console.log(posts)
+  console.log(selectedImage, '<<<<<<')
 
   if (!posts) {
     return <div>Loading...</div>;

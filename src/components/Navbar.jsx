@@ -45,7 +45,7 @@ const Navbar = () => {
           <a href="#" className="text-[#7a7676] text-md font-semibold  hover:text-indigo-500">Advertise</a>
         </li>
         <li>
-          <a href="#" className="text-[#7a7676] text-md font-semibold  hover:text-indigo-500">Subscribe</a>
+          <a href="#" className="text-md font-semibold  bg-gradient-to-r hover:from-blue-700 hover:to-purple-700 from-purple-600 to-blue-600 bg-clip-text text-transparent">Subscribe</a>
         </li>
       </ul>
       <div className="border-l border-gray-500 h-6 mx-6"></div>
