@@ -1,10 +1,13 @@
+'use client'
 import Image from 'next/image'
 import Navbar from '@/components/Navbar'
 import Hero from '@/components/Hero'
 import Card from '@/components/Card'
 import Modal from '@/components/Modal'
+import { useState } from 'react'
 
 export default function Home() {
+
   return (
     <>
       <header>
@@ -12,7 +15,6 @@ export default function Home() {
       </header>
       <main>
         <Hero />
-        <Modal/>
         <section className='gallery'>
           <Card/>
         </section>
