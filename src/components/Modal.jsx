@@ -14,7 +14,7 @@ const Modal = ({ closeBtn, selectedPost }) => {
     }
 
     return (
-        <div className='modal-background'>
+        <div className='flex justify-center items-center top-0 left-0  backdrop-blur-sm fixed w-[100%] h-[100%]'>
             <div className="modal-popup flex justify-center items-center">
                 {/* btn close */}
                 <button
