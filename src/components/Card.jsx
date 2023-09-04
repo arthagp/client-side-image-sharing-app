@@ -2,9 +2,10 @@
 import React, { useEffect, useState } from 'react'
 import { getAllImages } from '@/api/fetch'
 import Modal from '@/components/Modal'
+import Image from 'next/image'
 
 
-const Card = () => {
+const Card = ({isShow}) => {
   const [posts, setPosts] = useState([])
   const [selectedImage, setSelectedImage] = useState(null);
   const [isOpen, setIsOpen] = useState(false)
@@ -39,7 +40,6 @@ const Card = () => {
     fetchAllImages()
   }, [])
 
-  console.log(selectedImage, '<<<<<<')
 
   if (!posts) {
     return <div>Loading...</div>;
@@ -51,8 +51,7 @@ const Card = () => {
     )}
       <div onClick={handleOpenModal}>
         {posts.map(post => (
-          <img className='gallery-img' src={post.image_url} alt="Images" onClick={() => handleImageClick(post.image_url)}
-            key={post.id} />
+          <Image className='gallery-img' width={200} height={200} src={post.image_url} alt='Images' onClick={() => handleImageClick(post.image_url)}/>
         ))}
       </div>
     </>

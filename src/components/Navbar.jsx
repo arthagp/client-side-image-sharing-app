@@ -1,4 +1,5 @@
 import Cookies from 'js-cookie';
+import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
 
 const Navbar = () => {
@@ -8,7 +9,7 @@ const Navbar = () => {
 
   useEffect(() => {
     setIsLogged(getUsername)
-  },[])
+  }, [])
 
   console.log(logged)
   const handleLog = () => {
@@ -37,7 +38,7 @@ const Navbar = () => {
           />
         </div>
       </div>
-      <ul className="flex space-x-4 mx-8"> 
+      <ul className="flex space-x-4 mx-8">
         <li>
           <a href="#" className="text-[#7a7676] text-md font-semibold  hover:text-indigo-500">Explore</a>
         </li>
@@ -49,9 +50,9 @@ const Navbar = () => {
         </li>
       </ul>
       <div className="border-l border-gray-500 h-6 mx-6"></div>
-      <a onClick={handleLog} href='/login' className="text-[#7a7676] hover:text-indigo-500">
-      {logged ? "Log Out" : "Sign In"}
-      </a>
+      <Link onClick={handleLog} href='/login' className="text-[#7a7676] hover:text-indigo-500">
+        {logged ? "Log Out" : "Sign In"}
+      </Link>
       <button className="ml-4 py-1 px-4 border-[1px] text-[#7a7676] rounded-sm hover:bg-indigo-400">Submit Image</button>
     </nav>
   );
