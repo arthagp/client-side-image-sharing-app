@@ -2,7 +2,6 @@ import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import { FaHeart } from 'react-icons/fa';
-import Cookies from 'js-cookie';
 import { handleUserIsLike, handleUserLike, handleUserUnlike } from '@/api/fetch';
 
 const Modal = ({ closeBtn, selectedPost }) => {

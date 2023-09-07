@@ -1,3 +1,4 @@
+'use client'
 import Cookies from 'js-cookie';
 import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
@@ -40,6 +41,9 @@ const Navbar = () => {
       </div>
       <ul className="flex space-x-4 mx-8">
         <li>
+          <a href="/" className="text-[#7a7676] text-md font-semibold  hover:text-indigo-500">Home</a>
+        </li>
+        <li>
           <a href="#" className="text-[#7a7676] text-md font-semibold  hover:text-indigo-500">Explore</a>
         </li>
         <li>
@@ -53,7 +57,10 @@ const Navbar = () => {
       <Link onClick={handleLog} href='/login' className="text-[#7a7676] hover:text-indigo-500">
         {logged ? "Log Out" : "Sign In"}
       </Link>
-      <button className="ml-4 py-1 px-4 border-[1px] text-[#7a7676] rounded-sm hover:bg-indigo-400">Submit Image</button>
+      <Link href={'/new-image'} className="ml-4 py-1 px-4 border-[1px] text-[#7a7676] rounded-sm hover:bg-indigo-400 hover:text-white hover:shadow-md">
+        Submit Image
+      </Link>
+
     </nav>
   );
 }

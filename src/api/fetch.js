@@ -60,6 +60,19 @@ const handleUserLike = async (imageId) => {
     }
 }
 
+const fetchTags = async () => {
+    try {
+        const response = await instance.get('/all-tag')
+        return response.data
+    } catch (error) {
+        throw (
+            new Error(error.response.data.message) ||
+            console.log("Something Went Wrong")
+        )
+    }
+}
+
+
 const handleUserUnlike = async (imageId) => {
     try {
         const response = await instance.delete(`/unlike/${imageId}`)
@@ -72,4 +85,4 @@ const handleUserUnlike = async (imageId) => {
     }
 }
 
-module.exports = { getAllImages, userLogin, userRegister, handleUserLike, handleUserIsLike, handleUserUnlike}
+module.exports = { getAllImages, userLogin, userRegister, handleUserLike, handleUserIsLike, handleUserUnlike, fetchTags}
