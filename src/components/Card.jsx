@@ -1,6 +1,6 @@
 'use client'
 import React, { useEffect, useState } from 'react'
-import { getAllImages } from '@/api/fetch'
+import { getAllImages, handleUserIsLike } from '@/api/fetch'
 import Modal from '@/components/Modal'
 import Image from 'next/image'
 
@@ -18,8 +18,7 @@ const Card = ({isShow}) => {
   const handleCloseModal = () => {
     return setIsOpen(false)
   }
-  // 
-
+  //
 
   const fetchAllImages = async () => {
     try {
@@ -36,6 +35,14 @@ const Card = ({isShow}) => {
     setSelectedImage(selectedPost);
   };
 
+  useEffect(() => { // untuk fetch ketika modal di open dan close, karena jika tidak di lakukan akan terjadi bug pada total_likes
+    if (isOpen) {
+      fetchAllImages();
+    } else {
+      fetchAllImages()
+    }
+  }, [isOpen]);
+
   useEffect(() => {
     fetchAllImages()
   }, [])
@@ -51,7 +58,7 @@ const Card = ({isShow}) => {
     )}
       <div onClick={handleOpenModal}>
         {posts.map(post => (
-          <Image className='gallery-img' width={200} height={200} src={post.image_url} alt='Images' onClick={() => handleImageClick(post.image_url)}/>
+          <Image key={post.id} className='gallery-img' width={200} height={200} src={post.image_url} alt='Images' onClick={() => handleImageClick(post.image_url)}/>
         ))}
       </div>
     </>

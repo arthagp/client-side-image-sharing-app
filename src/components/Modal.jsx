@@ -1,41 +1,83 @@
 import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
+import { FaHeart } from 'react-icons/fa';
+import Cookies from 'js-cookie';
+import { handleUserIsLike, handleUserLike, handleUserUnlike } from '@/api/fetch';
 
 const Modal = ({ closeBtn, selectedPost }) => {
-    const formateDate = (dateString) => {
-        const options = {
-            day: "numeric",
-            month: "long",
-            year: "numeric",
+    // bug ketika like dan unlike, can't solve, selectedPost.total_likes tidak mencerminkan apa yang di like dan unlike, harus di reload untuk itu baru sesuai
+    const [isLiked, setIsLiked] = useState(false);
+    const [likeCount, setLikeCount] = useState(selectedPost.total_likes);
+
+    const fetchIsLike = async (imageId) => {
+        try {
+            const response = await handleUserIsLike(imageId);
+            setIsLiked(response.data);
+        } catch (error) {
+            console.error(error);
         }
-        const date = new Date(dateString)
-        return date.toLocaleDateString("en-US", options)
-    }
+    };
+
+    const handleLikeClick = async () => {
+        try {
+            if (!isLiked) {
+                const responseLike = await handleUserLike(selectedPost.id);
+                setLikeCount(likeCount + 1)
+                setIsLiked(true)
+            } else {
+                const responseUnLike = await handleUserUnlike(selectedPost.id);
+                setLikeCount(likeCount - 1)
+                setIsLiked(false)
+                // window.location.reload()
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
+
+    useEffect(() => {
+        fetchIsLike(selectedPost.id);
+    },[]);
+
+    console.log(likeCount, '<<<<<< count')
+    console.log(isLiked, '<<<<<< isLike')
+    console.log(selectedPost.total_likes, '<<<<<< total_likess')
+
+    const formatDate = (dateString) => {
+        const options = {
+            day: 'numeric',
+            month: 'long',
+            year: 'numeric',
+        };
+        const date = new Date(dateString);
+        return date.toLocaleDateString('en-US', options);
+    };
 
     return (
         <div className='flex justify-center items-center top-0 left-0  backdrop-blur-sm fixed w-[100%] h-[100%]'>
-            <div className="modal-popup flex justify-center items-center">
+            <div className='modal-popup flex justify-center items-center'>
                 {/* btn close */}
                 <button
                     onClick={closeBtn}
-                    className="absolute top-[10px] left-3 w-[20px] h-[20px] border-none cursor-pointer"
+                    className='absolute top-[10px] left-3 w-[20px] h-[20px] border-none cursor-pointer'
                 >
                     <img
-                        width="20"
-                        height="20"
-                        src="https://img.icons8.com/material-outlined/24/delete-sign.png"
-                        alt="delete-sign"
+                        width='20'
+                        height='20'
+                        src='https://img.icons8.com/material-outlined/24/delete-sign.png'
+                        alt='delete-sign'
                     />
                 </button>
                 <Link
-                    className="absolute top-3 right-3 no-underline rounded-lg text-white font-semibold bg-green-400 pt-2 pb-2 px-2"
+                    className='absolute top-3 right-3 no-underline rounded-lg text-white font-semibold bg-green-400 pt-2 pb-2 px-2'
                     target='_blank'
                     href={selectedPost.image_url}
                 >
                     Download Image
                 </Link>
-                <div className="flex justify-center items-center mx-3 mt-3">
+                <div className='flex justify-center items-center mx-3 mt-3'>
                     {/* muncul gambar asli yang di klik di card */}
                     <Image
                         className='object-fill rounded-lg'
@@ -44,43 +86,42 @@ const Modal = ({ closeBtn, selectedPost }) => {
                         width={400}
                         height={200}
                     />
-                    <div className="ml-10 flex flex-col justify-center">
-                        <button>
-                            <img
-                                width="30"
-                                height="30"
-                                src="https://img.icons8.com/material-outlined/96/filled-like.png"
-                                alt="filled-like"
-                            />
+                    <div className='ml-10 flex flex-col justify-center'>
+                        {/* btn likess */}
+                        <button
+                            onClick={handleLikeClick}
+                        >
+                            {isLiked ? <FaHeart className='w-7 h-7 text-red-600' /> : <FaHeart className='w-7 h-7 text-gray-600' />}
                         </button>
-                        <p>2 Likes</p>
-                        <p className="max-w-md mt-3">{selectedPost.caption}</p>
-                        <div className="mt-10">
-                            <div className="flex mb-2 text-sm text-gray-600">
+                        <p className='text-sm text-slate-700 mt-2'>{likeCount} Likes</p>
+                        <p className='max-w-md mt-3'>{selectedPost.caption}</p>
+                        <div className='mt-10'>
+                            <div className='flex mb-2 text-sm text-gray-600'>
                                 <img
-                                    className="opacity-80"
-                                    width="20"
-                                    height="20"
-                                    src="https://img.icons8.com/material-sharp/24/marker.png"
-                                    alt="marker"
+                                    className='opacity-80'
+                                    width='20'
+                                    height='20'
+                                    src='https://img.icons8.com/material-sharp/24/marker.png'
+                                    alt='marker'
                                 />
                                 <p className='pl-1'>{selectedPost.location}</p>
                             </div>
-                            <div className="flex mt-2 text-sm text-gray-600">
+                            <div className='flex mt-2 text-sm text-gray-600'>
                                 <img
-                                    className="opacity-80"
-                                    width="20"
-                                    height="20"
-                                    src="https://img.icons8.com/material-outlined/48/calendar--v1.png"
-                                    alt="calendar--v1"
+                                    className='opacity-80'
+                                    width='20'
+                                    height='20'
+                                    src='https://img.icons8.com/material-outlined/48/calendar--v1.png'
+                                    alt='calendar--v1'
                                 />
-                                <p className='pl-1'>{formateDate(selectedPost.createdAt)}</p>
-
+                                <p className='pl-1'>{formatDate(selectedPost.createdAt)}</p>
                             </div>
                             <div className='flex mt-10 text-sm text-gray-600 flex-wrap'>
-                                {selectedPost.Tags.map(tag => (<div className='rounded-md bg-slate-400 px-2 py-1 m-1 ' key={tag.id}>
-                                    {tag.tag_name}
-                                </div>))}
+                                {selectedPost.Tags.map((tag) => (
+                                    <div className='rounded-md bg-slate-400 px-2 py-1 m-1' key={tag.id}>
+                                        {tag.tag_name}
+                                    </div>
+                                ))}
                             </div>
                         </div>
                     </div>
