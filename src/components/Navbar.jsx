@@ -12,7 +12,6 @@ const Navbar = () => {
     setIsLogged(getUsername)
   }, [])
 
-  console.log(logged)
   const handleLog = () => {
     if (logged) {
       const attribute = ["id", "token", "username"];

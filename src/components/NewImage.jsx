@@ -1,8 +1,8 @@
 'use client'
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import Select from "react-select";
 import { toast } from "react-toastify";
-import { fetchTags } from '@/api/fetch'
+import { fetchTags, handleCreateNewImage } from '@/api/fetch'
 
 
 
@@ -10,22 +10,29 @@ const NewImage = () => {
     const [imageFile, setImageFile] = useState(null);
     const [tags, setTags] = useState([])
     const [selectedTags, setSelectedTags] = useState([]);
+    const [caption, setCaption] = useState('')
+    const [location, setLocation] = useState('')
 
+    const fileInputRef = useRef(null); // menggunakan ref untuk melakukan reference di dalam input html dengan nama ref={fileInputRef}
 
     const handleImageChange = (e) => {
-        const file = e.target.files[0];
-        setImageFile(file);
+        const file = e.target.files[0]
+        setImageFile(file)
     };
 
     const fetchAllTags = async () => {
         try {
             const response = await fetchTags()
             setTags(response.data)
-            console.log(tags)
         } catch (error) {
             console.log(error)
         }
     }
+
+    useEffect(() => {
+        fetchAllTags()
+    }, [])
+
 
     const handleTagChange = (selectedOptions) => {
         setSelectedTags(selectedOptions);
@@ -34,26 +41,61 @@ const NewImage = () => {
     const selectedTagIds = selectedTags.map((tag) => tag.value); // mendapatkan id dari multi option
 
 
-    console.log(tags)
-
-    useEffect(() => {
-        fetchAllTags()
-    }, [])
-
-    const handleSubmit = (e) => {
+    const handleCreateImage = async (e) => {
         e.preventDefault();
 
-        // Handle the image file here (e.g., upload it to a server).
-        if (imageFile) {
-            console.log('Image File:', imageFile);
-            // You can use the 'imageFile' variable to send the image to your server or perform any other operations.
+        try {
+            const response = await handleCreateNewImage({
+                image: imageFile,
+                caption,
+                location,
+                tagsId: selectedTagIds
+            });
+            if (response) {
+                toast.success("Create Image Succesfuly", {
+                    position: "top-right",
+                    autoClose: 1000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "light",
+                });
+                setCaption('')
+                setLocation('')
+                setSelectedTags([])
+                fileInputRef.current.value = ''; // untuk reset value dari input html
+            } else {
+                toast.error("Check your input please", {
+                    position: "top-right",
+                    autoClose: 2000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "light",
+                });
+            }
+        } catch (error) {
+            toast.error(`${error.message}`, {
+                position: "top-right",
+                autoClose: 2000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+            });
         }
-    };
+    }
 
     return (
         <div className="flex justify-center items-center h-screen bg-gray-100">
             <form
-                onSubmit={handleSubmit}
+                onSubmit={handleCreateImage}
                 className="bg-white shadow-2xl rounded-xl w-[500px] p-6"
             >
                 <h2 className="text-2xl font-semibold mb-4">Upload New Image</h2>
@@ -67,6 +109,7 @@ const NewImage = () => {
                         accept=".png, .jpg, .jpeg"
                         onChange={handleImageChange}
                         className="w-full p-2 border rounded"
+                        ref={fileInputRef} // reference untuk mendapatkan value dari inputan image, agar bs di reset
                     />
                 </div>
                 <div className="mb-4">
@@ -78,6 +121,8 @@ const NewImage = () => {
                         id="caption"
                         className="w-full p-2 border rounded"
                         placeholder="Enter caption"
+                        value={caption}
+                        onChange={(e) => setCaption(e.target.value)}
                     />
                 </div>
                 <div className="mb-4">
@@ -89,6 +134,8 @@ const NewImage = () => {
                         id="location"
                         className="w-full p-2 border rounded"
                         placeholder="Enter location"
+                        value={location}
+                        onChange={(e) => setLocation(e.target.value)}
                     />
                 </div>
                 <div className="mb-4">

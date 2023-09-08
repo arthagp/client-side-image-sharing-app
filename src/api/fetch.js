@@ -85,4 +85,18 @@ const handleUserUnlike = async (imageId) => {
     }
 }
 
-module.exports = { getAllImages, userLogin, userRegister, handleUserLike, handleUserIsLike, handleUserUnlike, fetchTags}
+const handleCreateNewImage = async (formData) => { // Menerima formData sebagai argumen
+    try {
+        const response = await instance.post('/create-post', formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data', // Atur tipe konten ke multipart/form-data
+            },
+        });
+        return response;
+    } catch (error) {
+        throw new Error(error.response.data.message || "Something Went Wrong");
+    }
+};
+
+
+module.exports = { getAllImages, userLogin, userRegister, handleUserLike, handleUserIsLike, handleUserUnlike, fetchTags, handleCreateNewImage }
