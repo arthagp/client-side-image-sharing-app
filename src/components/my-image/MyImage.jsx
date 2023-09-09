@@ -5,11 +5,26 @@ import { FaMapMarker } from 'react-icons/fa'
 import { toast } from "react-toastify";
 import Cookies from 'js-cookie'
 import ModalDelete from './ModalDelete';
+import ModalEditImage from '../ModalEditImage';
 
 const MyImage = () => {
     const [images, setImages] = useState([])
     const [showNotifDelete, setShowNotifDelete] = useState(false)
-    // jika user mengeklik tombol handleDeleteModal, maka pertama muncul modal, jika user delete maka munculkan handle delete
+    const [editModalData, setEditModalData] = useState({ isOpen: false, imageData: {} });
+
+    // Fungsi untuk membuka modal edit
+    const handleModalEdit = (imageData) => {
+        setEditModalData({ isOpen: true, imageData });
+    };
+
+    const handleRefreshImage = () => {
+        fetchImagesByUser()
+    }
+
+    // Fungsi untuk menutup modal edit
+    const handleCancelEdit = () => {
+        setEditModalData({ isOpen: false, imageData: {} });
+    };
 
     const handleDeleteModal = () => {
         return setShowNotifDelete(true)
@@ -98,7 +113,7 @@ const MyImage = () => {
                             </div>
                             {/* Tombol Edit dan Delete */}
                             <div className="flex justify-start mt-4">
-                                <button className="bg-yellow-500 mx-2 hover:bg-yellow-600 text-white font-semibold py-[1px] px-3 rounded-lg">
+                                <button onClick={() => handleModalEdit(image)} className="bg-yellow-500 mx-2 hover:bg-yellow-600 text-white font-semibold py-[1px] px-3 rounded-lg">
                                     Edit
                                 </button>
 
@@ -107,6 +122,18 @@ const MyImage = () => {
                                 </button>
                             </div>
                         </div>
+                        {editModalData.isOpen && (
+                            <ModalEditImage
+                                key={editModalData.imageData.createdAt}
+                                showModalEdit={handleCancelEdit}
+                                postId={editModalData.imageData.id}
+                                valueCaption={editModalData.imageData.caption}
+                                valueLocation={editModalData.imageData.location}
+                                valueSelectTags={editModalData.imageData.Tags.map(tag => tag)}
+                                closeBtn={handleCancelEdit}
+                                refreshImages={handleRefreshImage}
+                            />
+                        )}
                         {showNotifDelete && <ModalDelete handleDelete={() => handleDelete(image.id)} handleCancel={handleCancel} />}
                     </div>
                 ))}

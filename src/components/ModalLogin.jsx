@@ -71,7 +71,7 @@ const ModalLogin = ({ closeBtn }) => {
 
     return (
         <div className='z-10 flex justify-center items-center top-0 left-0  backdrop-blur-sm fixed w-[100%] h-[100%]'>
-            <div className="modal-popup-login absolute flex items-center justify-center">
+            <div className="modal-popup-login absolute">
                 <button
                     onClick={closeBtn}
                     className='absolute top-[30px] left-[30px] w-[20px] h-[20px] border-none cursor-pointer'

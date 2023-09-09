@@ -115,4 +115,13 @@ const deleteImage = async (imageId) => {
     }
 }
 
-module.exports = { getAllImages, userLogin, userRegister, handleUserLike, handleUserIsLike, handleUserUnlike, fetchTags, handleCreateNewImage, fetchImageByUserId, deleteImage }
+const editImage = async ({ imageId, caption, location, tagsId }) => {
+    try {
+        const response = await instance.put(`/edit-post/${imageId}`, { caption, location, tagsId })
+        return response
+    } catch (error) {
+        throw new Error(error.response.data.message || "Something Went Wrong");
+    }
+}
+
+module.exports = { getAllImages, userLogin, userRegister, handleUserLike, handleUserIsLike, handleUserUnlike, fetchTags, handleCreateNewImage, fetchImageByUserId, deleteImage, editImage }
