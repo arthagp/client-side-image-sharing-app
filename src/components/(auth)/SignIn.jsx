@@ -7,6 +7,7 @@ import { toast } from "react-toastify";
 import Cookies from "js-cookie";
 
 const SignIn = () => {
+  // note -> membuat logo jika di hover berubah menjadi pointer dan memiliki title 'Home-Splasher', dan jika di klik mengarah ke home
   const router = useRouter()
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
@@ -15,11 +16,11 @@ const SignIn = () => {
     setUsername(event.target.value)
   }
   const handlePasswordChange = (event) => {
-   setPassword(event.target.value)
+    setPassword(event.target.value)
   }
 
   const handleLogin = async (e) => {
-    e.preventDefault(); 
+    e.preventDefault();
 
     try {
       const response = await userLogin(username, password);
@@ -74,7 +75,9 @@ const SignIn = () => {
     <div className="min-h-screen flex items-center justify-center">
       <div className="max-w-md w-full p-6 bg-white rounded">
         <div className='flex flex-col justify-center items-center my-10'>
-          <h1 className="text-5xl font-extrabold my-6">Splasher</h1>
+          <Link href={'/'} title='Home-Splasher'>
+            <h1 className="text-5xl font-extrabold my-6">Splasher</h1>
+          </Link>
           <p className="text-gray-600 mb-6">Welcome Back</p>
         </div>
         <form onSubmit={handleLogin} className="space-y-4">

@@ -72,7 +72,6 @@ const fetchTags = async () => {
     }
 }
 
-
 const handleUserUnlike = async (imageId) => {
     try {
         const response = await instance.delete(`/unlike/${imageId}`)
@@ -98,5 +97,22 @@ const handleCreateNewImage = async (formData) => { // Menerima formData sebagai 
     }
 };
 
+const fetchImageByUserId = async () => {
+    try {
+        const response = await instance.get('/my-images')
+        return response.data
+    } catch (error) {
+        throw new Error(error.response.data.message || "Something Went Wrong");
+    }
+}
 
-module.exports = { getAllImages, userLogin, userRegister, handleUserLike, handleUserIsLike, handleUserUnlike, fetchTags, handleCreateNewImage }
+const deleteImage = async (imageId) => {
+    try {
+        const response = await instance.delete(`/delete-post/${imageId}`)
+        return response
+    } catch (error) {
+        throw new Error(error.response.data.message || "Something Went Wrong");
+    }
+}
+
+module.exports = { getAllImages, userLogin, userRegister, handleUserLike, handleUserIsLike, handleUserUnlike, fetchTags, handleCreateNewImage, fetchImageByUserId, deleteImage }
